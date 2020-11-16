@@ -7,7 +7,7 @@ class get_image:
     def __init__(self,p1,p2):
         self.p1 = p1
         self.p2 = p2
-        self.key = 'AIzaSyB_i8TNJ4TwRYtZMrBXoXNU6iHkXlJvFvQ'
+        self.key = ''
 
     def download_image(self):
         query = self.p1 + "+" + self.p2 
@@ -17,7 +17,6 @@ class get_image:
 
         getparams = {'input':query, 'inputtype':inputtype, 'fields':fields,'key':self.key}
         url = main_url + urllib.parse.urlencode(getparams)
-        print(url)
         response = requests.get(url)
         jsondata = response.json()
 

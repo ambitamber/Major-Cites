@@ -52,12 +52,12 @@ def main():
             city_list = get_data_from_web(city,country)
             data = get_country_data(city_list,country)
         
-        print("Cities: " + str(data))
-        json_string = {'result':[]}
+        
+        json_string = []
         city_id = 1
         for i in data:
             image = get_image(i[:i.find(', ')],i[i.find(', ')+2:]).download_image()
-            json_string['result'].append({'id':city_id,'city':i,'image':image})
+            json_string.append({'city_ID':city_id,'cityName':i,'Image_url':image})
             city_id += 1
         
         output = json.dumps(json_string)
