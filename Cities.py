@@ -2,12 +2,17 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from image_application import get_image
+import yaml
 
 class NearbyCites:
 
+    def __init__(self):
+        config = open("configuration.yaml", "r")
+        self.configuration = yaml.safe_load(config)
+
     def get_data_from_web(self,city,state_or_country):
 
-        url = 'https://www.travelmath.com/cities-near/'+ city + '+' + state_or_country
+        url = self.configuration['travelmath']['url'] + city + '+' + state_or_country
         data = requests.get(url)
         soup = BeautifulSoup(data.text, 'html.parser')
         leftcolumn = soup.find('div', class_='leftcolumn')

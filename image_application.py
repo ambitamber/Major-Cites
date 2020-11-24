@@ -1,22 +1,24 @@
 import requests
 import urllib.parse
 import random
+import yaml
 
 class get_image:
 
     def __init__(self,p1,p2):
         self.p1 = p1
         self.p2 = p2
-        self.key = ''
 
+        configuration = open("configuration.yaml", "r")
+        self.configuration = yaml.safe_load(configuration)
+    
     def download_image(self):
         query = self.p1 + "+" + self.p2 
         fields = 'photos'
         inputtype = 'textquery'
-        main_url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?'
 
-        getparams = {'input':query, 'inputtype':inputtype, 'fields':fields,'key':self.key}
-        url = main_url + urllib.parse.urlencode(getparams)
+        getparams = {'input':query, 'inputtype':inputtype, 'fields':fields,'key':self.configuration['googleapis']['key']}
+        url = self.configuration['googleapis']['url'] + urllib.parse.urlencode(getparams)
         response = requests.get(url)
         jsondata = response.json()
 
@@ -33,10 +35,10 @@ class get_image:
             return image_url
     
     def build_image_link(self,image_id):
-        image_url = 'https://maps.googleapis.com/maps/api/place/photo?'
+        image_url = self.configuration['googleapis']['photo_url']
         maxwidth = '400'
 
-        getparams = {'maxwidth': maxwidth, 'photoreference':image_id, 'key':self.key}
+        getparams = {'maxwidth': maxwidth, 'photoreference':image_id, 'key':self.configuration['googleapis']['key']}
         imageurl = image_url +  urllib.parse.urlencode(getparams)
 
         return imageurl
