@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-from image_application import get_image
+from image_application import GetImage
 import yaml
 
 class NearbyCites:
@@ -59,7 +59,7 @@ class NearbyCites:
             json_string = []
             city_id = 1
             for i in data:
-                image = get_image(i[:i.find(', ')],i[i.find(', ')+2:]).download_image()
+                image = GetImage(i[:i.find(', ')],i[i.find(', ')+2:])._Check()
                 json_string.append({'city_ID':city_id,'cityName':i,'Image_url':image})
                 city_id += 1
                 
@@ -69,4 +69,6 @@ class NearbyCites:
             output = {'No data'}
             
         return output
-            
+
+#data = NearbyCites().Cities("weymouth","MA","United States")
+#print(data)
