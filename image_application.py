@@ -56,9 +56,6 @@ class GetImage:
             imagelink = firestore.Firestore_Downloader()
         else:
            imagelink = self.Get_Image_Link()
-           thread = Thread(target= self.BackgroundService, args=(firestore,imagelink))
-           thread.start()
-           thread.join()
         return imagelink
 
     def BackgroundService(self,firestore,imagelink):
