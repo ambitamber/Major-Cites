@@ -4,6 +4,7 @@ import json
 from image_application import GetImage
 import yaml
 from threading import Thread
+import urllib
 
 class NearbyCites:
 
@@ -46,7 +47,7 @@ class NearbyCites:
 
     def Cities(self,city,state,country):
         print('Getting data for following location: City = ' + city + "State =" + state + "Country =" + country )
-        thread = Thread(target= self.BackgroundService)
+        thread = Thread(target = self.BackgroundService, args=(city,state,country))
         thread.start()
         try:
             if country == "United States":
@@ -71,9 +72,11 @@ class NearbyCites:
         thread.join()  
         return output
     
-    def BackgroundService(self,firestore,imagelink):
-        requests.get("https://29034.wayscript.io/?city=weymouth&state=ma&country=United+States")
+    def BackgroundService(self,city,state,country):
+        getparams = {'city':city, 'state':state, 'country':country}
+        url = self.configuration['wayscript'] + urllib.parse.urlencode(getparams)
+        requests.get(url)
 
 
-data = NearbyCites().Cities("weymouth","MA","United States")
-sprint(data)
+#data = NearbyCites().Cities("weymouth","MA","United States")
+#print(data)

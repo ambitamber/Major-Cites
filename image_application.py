@@ -57,6 +57,3 @@ class GetImage:
         else:
            imagelink = self.Get_Image_Link()
         return imagelink
-
-    def BackgroundService(self,firestore,imagelink):
-        firestore.Firestore_Uploader(imagelink)
