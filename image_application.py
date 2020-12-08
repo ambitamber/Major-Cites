@@ -3,7 +3,6 @@ import urllib.parse
 import random
 import yaml
 import Firestore
-from threading import Thread
 
 
 class GetImage:
@@ -55,5 +54,6 @@ class GetImage:
         if firestore.Exists_In_Firestore():
             imagelink = firestore.Firestore_Downloader()
         else:
-           imagelink = self.Get_Image_Link()
+            imagelink = self.Get_Image_Link()
+            firestore.Firestore_Uploader(imagelink,p1+self.p2)
         return imagelink

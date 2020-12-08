@@ -46,9 +46,7 @@ class NearbyCites:
         return city_list
 
     def Cities(self,city,state,country):
-        print('Getting data for following location: City = ' + city + "State =" + state + "Country =" + country )
-        thread = Thread(target = self.BackgroundService, args=(city,state,country))
-        thread.start()
+        #print('Getting data for following location: City = ' + city + "State =" + state + "Country =" + country )
         try:
             if country == "United States":
                 city_list = self.get_data_from_web(city,state)
@@ -69,14 +67,7 @@ class NearbyCites:
         except:
             print('Error getting data.')
             output = {'No data'}
-        thread.join()  
         return output
-    
-    def BackgroundService(self,city,state,country):
-        getparams = {'city':city, 'state':state, 'country':country}
-        url = self.configuration['wayscript'] + urllib.parse.urlencode(getparams)
-        requests.get(url)
-
 
 #data = NearbyCites().Cities("weymouth","MA","United States")
 #print(data)

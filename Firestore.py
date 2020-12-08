@@ -17,8 +17,8 @@ class Firestore:
         db = firestore.client()
         return db
 
-    def Firestore_Uploader(self,imagelink):
-        self.db.collection('Google City Image').document(self.keyID).set({"imagelink":imagelink})
+    def Firestore_Uploader(self,imagelink,cityname):
+        self.db.collection('Google City Image').document(self.keyID).set({'CityName':cityname,"imagelink":imagelink})
     
     def Exists_In_Firestore(self):
         if self.db.collection('Google City Image').document(self.keyID).get().exists:
