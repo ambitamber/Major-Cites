@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-from image_application import get_image
+from image_application import GetImage
 import yaml
+from threading import Thread
+import urllib
 
 class NearbyCites:
 
@@ -11,7 +13,6 @@ class NearbyCites:
         self.configuration = yaml.safe_load(config)
 
     def get_data_from_web(self,city,state_or_country):
-
         url = self.configuration['travelmath']['url'] + city + '+' + state_or_country
         data = requests.get(url)
         soup = BeautifulSoup(data.text, 'html.parser')
@@ -35,18 +36,17 @@ class NearbyCites:
     def get_country_data(self,city_list,country):
         for i in range(len(city_list) - 1, -1, -1):
             if country not in city_list[i]:
-                print('Removing: ' + city_list[i])
                 del city_list[i]
         return city_list
 
     def get_US_data(self,city_list):
         for i in range(len(city_list) - 1, -1, -1):
-            if "Canada" in city_list[i] or "Mexico" in city_list[i]:
+            if "Canada" in city_list[i] or "Mexico" in city_list[i] or "Cuba" in city_list[i] or "Bahamas" in city_list[i]:
                 del city_list[i]
         return city_list
 
     def Cities(self,city,state,country):
-        print('Getting data for following location: City = ' + city + "State =" + state + "Country =" + country )
+        #print('Getting data for following location: City = ' + city + "State =" + state + "Country =" + country )
         try:
             if country == "United States":
                 city_list = self.get_data_from_web(city,state)
@@ -59,14 +59,15 @@ class NearbyCites:
             json_string = []
             city_id = 1
             for i in data:
-                image = get_image(i[:i.find(', ')],i[i.find(', ')+2:]).download_image()
+                image = GetImage(i[:i.find(', ')],i[i.find(', ')+2:])._Check()
                 json_string.append({'city_ID':city_id,'cityName':i,'Image_url':image})
                 city_id += 1
-                
+            
             output = json.dumps(json_string)
         except:
             print('Error getting data.')
             output = {'No data'}
-            
         return output
-            
+
+#data = NearbyCites().Cities("weymouth","MA","United States")
+#print(data)

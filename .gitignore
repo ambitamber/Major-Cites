@@ -2,3 +2,7 @@
 __pycache__/image_application.cpython-38.pyc
 *.pyc
 configuration.yaml
+key.json
+test.py
+.vscode/settings.json
+.vscode/settings.json
